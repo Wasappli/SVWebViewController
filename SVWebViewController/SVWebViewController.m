@@ -260,10 +260,6 @@
     return YES;
 }
 
-//- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-//    return YES;
-//}
-
 #pragma mark - Target actions
 
 - (void)goBackClicked:(UIBarButtonItem *)sender {
@@ -305,7 +301,8 @@
 }
 
 - (void) toogleToolBar {
-//    if ( self.tool)
+    BOOL hidden = ( ! self.navigationController.toolbar.hidden );
+    [self.navigationController setToolbarHidden:hidden animated:YES];
 }
 
 @end
