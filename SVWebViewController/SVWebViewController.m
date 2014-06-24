@@ -10,7 +10,7 @@
 #import "SVWebViewControllerActivitySafari.h"
 #import "SVWebViewController.h"
 
-@interface SVWebViewController () <UIWebViewDelegate>
+@interface SVWebViewController () <UIWebViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *backBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *forwardBarButtonItem;
@@ -32,6 +32,10 @@
 - (void)reloadClicked:(UIBarButtonItem *)sender;
 - (void)stopClicked:(UIBarButtonItem *)sender;
 - (void)actionButtonClicked:(UIBarButtonItem *)sender;
+
+- (void) doubleTap:(id)sender;
+- (void) toggleNavBar;
+- (void) toogleToolBar;
 
 @end
 
@@ -67,6 +71,14 @@
 
 - (void)loadView {
     self.view = self.webView;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(doubleTap:)];
+    tapGesture.numberOfTapsRequired    = 2;
+    tapGesture.numberOfTouchesRequired = 1;
+    tapGesture.delegate                = self;
+    [self.view addGestureRecognizer:tapGesture];
+    
     [self loadURL:self.URL];
 }
 
@@ -242,6 +254,16 @@
     [self updateToolbarItems];
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+//- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+//    return YES;
+//}
+
 #pragma mark - Target actions
 
 - (void)goBackClicked:(UIBarButtonItem *)sender {
@@ -270,6 +292,20 @@
 
 - (void)doneButtonClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void) doubleTap:(UIGestureRecognizer*)sender {
+    [self toggleNavBar];
+    [self toogleToolBar];
+}
+
+- (void) toggleNavBar {
+    BOOL hidden = ( ! self.navigationController.navigationBar.hidden );
+    [self.navigationController setNavigationBarHidden:hidden animated:YES];
+}
+
+- (void) toogleToolBar {
+//    if ( self.tool)
 }
 
 @end
