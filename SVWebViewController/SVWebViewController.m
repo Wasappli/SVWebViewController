@@ -186,7 +186,9 @@
 - (void)updateToolbarItems {
     self.backBarButtonItem.enabled = self.self.webView.canGoBack;
     self.forwardBarButtonItem.enabled = self.self.webView.canGoForward;
-    self.actionBarButtonItem.enabled = !self.self.webView.isLoading;
+    
+    // just keepiong the sharing btton enabled because web pages always seem to be loading
+    self.actionBarButtonItem.enabled = YES;
     
     UIBarButtonItem *refreshStopBarButtonItem = self.self.webView.isLoading ? self.stopBarButtonItem : self.refreshBarButtonItem;
     
