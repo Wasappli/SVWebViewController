@@ -13,4 +13,10 @@
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)URL;
 
+#pragma mark - Gestures
+
+- (void) activateGestures;
+
+@property (nonatomic, strong) UIWebView *webView;
+
 @end

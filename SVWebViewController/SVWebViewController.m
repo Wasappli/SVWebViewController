@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UIBarButtonItem *stopBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *actionBarButtonItem;
 
-@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NSURL *URL;
 
 - (id)initWithAddress:(NSString*)urlString;
@@ -72,13 +71,6 @@
 - (void)loadView {
     self.view = self.webView;
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(doubleTap:)];
-    tapGesture.numberOfTapsRequired    = 2;
-    tapGesture.numberOfTouchesRequired = 1;
-    tapGesture.delegate                = self;
-    [self.view addGestureRecognizer:tapGesture];
-    
     [self loadURL:self.URL];
 }
 
@@ -125,6 +117,17 @@
         return YES;
     
     return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+#pragma mark - Gestures
+
+- (void) activateGestures {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(doubleTap:)];
+    tapGesture.numberOfTapsRequired    = 2;
+    tapGesture.numberOfTouchesRequired = 1;
+    tapGesture.delegate                = self;
+    [self.view addGestureRecognizer:tapGesture];
 }
 
 #pragma mark - Getters
